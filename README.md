@@ -35,5 +35,5 @@ Parts used:
                 2x
 
 
-You can find the CAD files of our parts in this repository.
+You can find the CAD files of our parts in this repository. Use Autodesk Inventor 2019 to open them.
 You'll need a 3D printer: We were allowed to use one of the "EULE - Gmünder Wissenswerkstatt": Thanks for it!

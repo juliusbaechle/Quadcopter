@@ -16,25 +16,23 @@ Parts used:
     (it is important to buy 2x clockwise and 2x anticlockwise, i suggest to buy 2 times cause they break easily)
   Frame: Most of it is 3D printed, but you'll need an aluminium square tube too
   2x Radio Module: https://www.gearbest.com/transmitters-receivers-module/pp_440447.html?wid=21&lkid=10647491
-  
+
   1x Gyroscope: https://www.gearbest.com/development-boards/pp_22530.html?wid=21
   2x Joystick
-  
+
   Some smaller parts:
-    resistor: 2x 120Ohm 
-              2x 4,7 kOhm
+    resistor: 2x 120Ohm 2x 4,7 kOhm
     2x 3.3V voltage stabilizer
     8x female - male, 6x male - male goldpins
     2x LED diode
     cable
     
-    2x Atmega328: Don't forget the bootloader
+    2x Atmega: Don't forget the bootloader
     2x Quarz 16MHz
     capacitors: 4x 22pF
-                2x 10uF
-                2x 
-                
+  2x 10uF
+ 2x
+
 
 You can find the CAD files of our parts in this repository.
 You'll need a 3D printer: We were allowed to use one of the "EULE - Gmünder Wissenswerkstatt": Thanks for it!
-

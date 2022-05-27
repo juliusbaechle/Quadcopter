@@ -1,5 +1,5 @@
 # Quadrocopter
-<img src="Documents/Drone.jpeg" alt="Drone">
+<img src="Doc/Drone.jpeg" alt="Drone">
 
 Ursprünglich wurde das von meinem Bruder und seinen Mitschülern begonnene Seminarprojekt 2017 
 begonnnen, Grundlage hierfür war die unter Documents enthaltene PDF.

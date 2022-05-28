@@ -1,4 +1,4 @@
-# Quadrocopter
+# Quadcopter
 <img src="Doc/Drone.jpeg" alt="Drone">
 
 Originally, this was started  as seminar project by my brother and his classmates in 2017. 

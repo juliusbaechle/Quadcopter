@@ -15,9 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Quadcopter2.ino" />
+    <None Include="Quadcopter.ino" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="__vm\.Quadcopter.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlElements.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -30,16 +36,10 @@
     <ClInclude Include="Sensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Thrust.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Servos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="__vm\.Quadcopter2.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ControlElements.h">
+    <ClInclude Include="Thrust.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,7 +14,7 @@
     <ProjectGuid>{C5F80730-F44F-4478-BDAE-6634EFC2CA88}</ProjectGuid>
     <RootNamespace>
     </RootNamespace>
-    <ProjectName>Controller2</ProjectName>
+    <ProjectName>Quadcopter</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -72,8 +72,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <ForcedIncludeFiles>$(ProjectDir)__vm\.Controller2.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles>$(ProjectDir)__vm\.Quadcopter.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PreprocessorDefinitions>__AVR_atmega328p__;__AVR_ATmega328P__;__AVR_ATmega328p__;F_CPU=16000000L;ARDUINO=108010;ARDUINO_AVR_NANO;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Quadcopter;C:\Users\juliu\OneDrive\Dokumente\Arduino\libraries\RF24;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.5\libraries\SPI\src;C:\Users\juliu\OneDrive\Dokumente\Arduino\libraries\Adafruit_Unified_Sensor;C:\Users\juliu\OneDrive\Dokumente\Arduino\libraries\Adafruit_MPU6050;C:\Users\juliu\OneDrive\Dokumente\Arduino\libraries\Adafruit_BusIO;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.5\libraries\Wire\src;C:\Users\juliu\OneDrive\Dokumente\Arduino\libraries\Servo\src;C:\Users\juliu\OneDrive\Dokumente\Arduino\libraries\RF24\utility;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.5\libraries\Wire\src\utility;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.5\variants\eightanaloginputs;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.5\cores\arduino;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\\lib\gcc\avr\7.3.0\include;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\\lib\gcc\avr\7.3.0\include;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include-fixed;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include\avr;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\4.9.2\include;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\4.9.2\include;C:\Users\juliu\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -99,10 +102,25 @@
     <ProjectCapability Include="VisualMicro" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Controller2.ino" />
+    <None Include="Quadcopter.ino" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.Controller2.vsarduino.h" />
+    <ClInclude Include="ControlElements.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="ProcessVars.h" />
+    <ClInclude Include="Receiver.h" />
+    <ClInclude Include="Sensor.h" />
+    <ClInclude Include="Servos.h" />
+    <ClInclude Include="Thrust.h" />
+    <ClInclude Include="__vm\.Quadcopter.vsarduino.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="ProcessVars.cpp" />
+    <ClCompile Include="Receiver.cpp" />
+    <ClCompile Include="Sensor.cpp" />
+    <ClCompile Include="Servos.cpp" />
+    <ClCompile Include="Thrust.cpp" />
   </ItemGroup>
   <PropertyGroup>
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>

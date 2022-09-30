@@ -110,6 +110,7 @@
     <ClInclude Include="Receiver.h" />
     <ClInclude Include="Sensor.h" />
     <ClInclude Include="Servos.h" />
+    <ClInclude Include="ControlElements.h" />
     <ClInclude Include="Thrust.h" />
     <ClInclude Include="__vm\.Quadcopter2.vsarduino.h" />
   </ItemGroup>

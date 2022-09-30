@@ -15,6 +15,7 @@ private:
   void assign(char id, int16_t val);
 
 private:
+  const byte m_address[5] = { 'D', 'r', 'o', 'n', 'e' };
   bool m_available = false;
   ProcessVars m_vars;
   uint32_t m_lastPingMs = 0;

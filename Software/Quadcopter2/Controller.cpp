@@ -1,18 +1,15 @@
 #include "Controller.h"
 #include <Arduino.h>
 
-// Maximum Roll/Pitch P: 25
-// Maximum 
-
 Controller::Controller() 
-  : m_climbController(10, 30, 0)
-  , m_pitchController(13, 0, 50)
-  , m_rollController(13, 0, 50)
-  , m_yawController(3, 0, 0)
+  : m_climbController(10, 40, 0)
+  , m_pitchController(12, 5, 35)
+  , m_rollController(12, 5, 35)
+  , m_yawController(10, 0, 20)
 {}
 
 Thrust Controller::calc(ProcessVars a_diff) {
-  Thrust thrust (15);
+  Thrust thrust (30);
   float intervalS = getIntervalS();
   // thrust += calcClimb(a_diff.climb, intervalS);
   thrust += calcPitch(a_diff.pitch, intervalS);

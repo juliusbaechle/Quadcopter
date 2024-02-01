@@ -18,7 +18,9 @@ void Servos::set(Thrust a_thrust) {
 }
 
 uint16_t Servos::toUs(float a_percent) {
-  if (a_percent > 100) a_percent = 100;
-  if (a_percent < 0) a_percent = 0;
+  if (a_percent > 100)
+    a_percent = 100;
+  if (a_percent < 0) 
+    a_percent = 0;
   return 1000 + (uint16_t)(10 * a_percent);
 }

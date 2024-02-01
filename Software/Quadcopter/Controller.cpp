@@ -3,27 +3,18 @@
 
 Controller::Controller() 
   : m_climbController(10, 40, 0)
-  , m_pitchController(12, 5, 35)
-  , m_rollController(12, 5, 35)
-  , m_yawController(10, 0, 20)
+  , m_pitchController(15, 0, 5) // 12, 5, 35
+  , m_rollController(15, 0, 5) // 12, 5, 35
+  , m_yawController(15, 0, 5) // 10, 0, 20
 {}
 
-Thrust Controller::calc(ProcessVars a_diff) {
-  Thrust thrust (30);
-  float intervalS = getIntervalS();
+Thrust Controller::calc(ProcessVars a_diff, float intervalS) {
+  Thrust thrust (40);
   // thrust += calcClimb(a_diff.climb, intervalS);
   thrust += calcPitch(a_diff.pitch, intervalS);
   thrust += calcRoll(a_diff.roll, intervalS);
-  thrust += calcYaw(a_diff.yaw, intervalS);
+  thrust += calcYaw(a_diff.yawrate, intervalS);
   return thrust;
-}
-
-float Controller::getIntervalS() {
-  unsigned long intervalMicros = 0;
-  auto currentMicros = micros();
-  intervalMicros = currentMicros - m_previousMicros;
-  m_previousMicros = currentMicros;
-  return (float)(intervalMicros) / 1000000;
 }
 
 Thrust Controller::calcClimb(float a_diff, float a_intervalS) {
@@ -51,5 +42,4 @@ void Controller::reset() {
   m_pitchController.reset();
   m_yawController.reset();
   m_rollController.reset();
-  m_previousMicros = micros();
 }

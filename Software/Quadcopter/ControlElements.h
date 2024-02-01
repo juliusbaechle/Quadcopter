@@ -28,15 +28,15 @@ private:
 
 class DT1Element {
 public:
-  DT1Element(float a_k1, float a_kd)
-  : k1(a_k1)
+  DT1Element(float a_kd, float a_kt1)
+  : kt1(a_kt1)
   , kd(a_kd) 
   {}
 
   float operator() (float u, float t) {
-    if (k1 <= 0 || kd <= 0)
+    if (kt1 <= 0 || kd <= 0)
       return 0;
-    lastY = (kd * lastY + k1 * (u - lastU)) / (kd + k1 * kd * t);
+    lastY = (kd * (u - lastU) - kt1 * lastY) / (kt1 + t);
     lastU = u;
     return lastY;
   }
@@ -50,7 +50,7 @@ private:
   float lastY = 0.0;
   float lastU = 0.0;
   float kd = 0.0;
-  float k1 = 0.0;
+  float kt1 = 0.0;
 };
 
 
@@ -59,7 +59,7 @@ public:
   PIDT1Element(float a_kp, float a_ki, float a_kd)
     : m_kp(a_kp)
     , m_iElement(a_ki)
-    , m_dt1Element(a_kd * 50, a_kd) {}
+    , m_dt1Element(a_kd, a_kd / 10) {}
 
   float operator() (float a_val, float interval_s) {
     float val = 0.0f;

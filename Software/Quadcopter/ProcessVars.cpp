@@ -6,7 +6,7 @@ ProcessVars ProcessVars::operator- (const ProcessVars& a_vars) {
   vars.climb = climb - a_vars.climb;
   vars.roll = roll - a_vars.roll;
   vars.pitch = pitch - a_vars.pitch;
-  vars.yaw = yaw - a_vars.yaw;
+  vars.yawrate = yawrate - a_vars.yawrate;
   return vars;
 }
 
@@ -14,7 +14,7 @@ ProcessVars& ProcessVars::operator+= (const ProcessVars& a_vars) {
   climb += a_vars.climb;
   roll += a_vars.roll;
   pitch += a_vars.pitch;
-  yaw += a_vars.yaw;
+  yawrate += a_vars.yawrate;
   return *this;
 }
 
@@ -22,7 +22,7 @@ ProcessVars& ProcessVars::operator/= (float a_factor) {
   climb /= a_factor;
   roll /= a_factor;
   pitch /= a_factor;
-  yaw /= a_factor;
+  yawrate /= a_factor;
   return *this;
 }
 
@@ -32,7 +32,7 @@ void print(const ProcessVars& a_vars) {
   Serial.print(F(", Roll: "));
   Serial.print(a_vars.roll);
   Serial.print(F(", Yaw: "));
-  Serial.print(a_vars.yaw);
-  Serial.print(F(", Climb: "));
+  Serial.print(a_vars.yawrate);
+  Serial.print(F(", climb: "));
   Serial.println(a_vars.climb);
 }

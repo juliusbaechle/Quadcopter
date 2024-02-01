@@ -1,6 +1,6 @@
 #include "Receiver.h"
 
-#define TIMEOUT_MS 500
+#define TIMEOUT_MS 3000
 
 void Receiver::begin() {
   m_rf24.begin(9, 10);
@@ -48,7 +48,7 @@ void Receiver::assign(char id, int16_t val) {
     m_vars.pitch = (float)(val) / 1000.0f;
     break;
   case 'Y':
-    m_vars.yaw = (float)(val) / 1000.0f;
+    m_vars.yawrate = (float)(val) / 1000.0f;
     break;
   }
 }

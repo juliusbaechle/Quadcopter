@@ -12,21 +12,27 @@ Receiver receiver;
 Sensor sensor;
 Controller controller;
 Servos servos;
+uint64_t us = 0;
 
 void setup() {
   Serial.begin(115200);
-  servos.begin();
   receiver.begin();
   sensor.begin();
   controller.reset();
+  servos.begin();
+  us = micros();
 }
 
 void loop() {
+  float interval_s = ((float) (micros() - us)) / 1000000;
+  us = micros();
+  
   receiver.update();
+  
   if(receiver.isAvailable()) {
-    auto desiredVars = receiver.getVars();
-    auto actualVars = sensor.getVars();
-    auto thrust = controller.calc(desiredVars - actualVars);
+    auto desiredVars = receiver.read();
+    auto actualVars = sensor.read(interval_s);
+    auto thrust = controller.calc(desiredVars - actualVars, interval_s);
     servos.set(thrust);
   } else {
     controller.reset();

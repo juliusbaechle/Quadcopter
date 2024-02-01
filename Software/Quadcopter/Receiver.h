@@ -8,7 +8,7 @@ public:
   void begin();
   void update();
   bool isAvailable() const { return m_available; }
-  ProcessVars getVars() const { return m_vars; }
+  ProcessVars read() const { return m_vars; }
 
 private:
   void parse(char* text);

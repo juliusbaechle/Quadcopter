@@ -13,5 +13,9 @@ accordingly. Unfortunately, the drone was destroyed during the following flight 
 to a connection failure.
 
 In 2022, we rebuilt the drone, reduced the moment of inertia and weight by removing the 
-spring-loaded feet and refactored the software. However, we have not yet tested it in 
-free flight because we are afraid of destroying it again.
+spring-loaded feet and refactored the software.
+
+In 2024, after completing my Master's degree in Applied Computer Science, we switched to
+angle control instead of angular rate control and integrated a more advanced radio control 
+system. Since the angle cannot be measured directly with the gyroscope and accelerometer, 
+a Kalman filter is used to combine these two measurements.

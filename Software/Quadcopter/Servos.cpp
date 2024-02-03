@@ -6,8 +6,7 @@ void Servos::begin() {
   m_servos[1].attach(5); // FR / ESC2
   m_servos[2].attach(4); // RL / ESC3
   m_servos[3].attach(7); // RR / ESC1
-  for (int i = 0; i < 4; i++)
-    m_servos[i].writeMicroseconds(1000);
+  set(Thrust(0));
 }
 
 void Servos::set(Thrust a_thrust) { 

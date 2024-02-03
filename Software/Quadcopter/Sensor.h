@@ -2,6 +2,9 @@
 
 #include <Adafruit_MPU6050.h>
 #include "ProcessVars.h"
+#include "ControlElements.h"
+
+const float T1_SENSOR = 0.01;
 
 struct Coordinates {
   float x = 0;
@@ -23,6 +26,7 @@ struct Coordinates {
   const Coordinates& operator-=(const Coordinates& c) { x -= c.x; y -= c.y; z -= c.z; return *this; }
 };
 
+
 static void println(const Coordinates& c) {
   Serial.print(c.x);
   Serial.print(", ");
@@ -39,13 +43,15 @@ public:
 
 private:
   Coordinates readRates();
-  Coordinates readAccAngles();
-  void calibrate();
+  Coordinates readAccAngles(); 
 
 private:
   Adafruit_MPU6050 m_sensor;
-  Coordinates m_offset_rates;
-  Coordinates m_offset_angles;
+  PT2Element pt2_roll = PT2Element(1, T1_SENSOR, T1_SENSOR);
+  PT2Element pt2_pitch = PT2Element(1, T1_SENSOR, T1_SENSOR);
+  PT2Element pt2_yawrate = PT2Element(1, T1_SENSOR, T1_SENSOR);
+  Coordinates m_offset_rates = { -0.01, -0.06, -0.01 };
+  Coordinates m_offset_angles = { -0.07, -0.02, 0 };
   Coordinates m_angles;
   uint64_t m_us;
 };

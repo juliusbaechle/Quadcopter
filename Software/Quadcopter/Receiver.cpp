@@ -1,54 +1,83 @@
 #include "Receiver.h"
+#include "ControlElements.h"
+#include <Wire.h>
 
-#define TIMEOUT_MS 3000
+#define TIMEOUT_MS 2000
+#define NUM_VARS 5
+#define BUF_SIZE (NUM_VARS * 3 + 1)
+
+ProcessVars vars;
+uint32_t lastPingMs = 0;
+int pos = 0;
+char buf [BUF_SIZE];
+bool on = false;
+
+const float T1_REC = 0.05;
+PT2Element pt2_thrust = PT2Element(1, T1_REC, T1_REC);
+PT2Element pt2_roll = PT2Element(1, T1_REC, T1_REC);
+PT2Element pt2_pitch = PT2Element(1, T1_REC, T1_REC);
+PT2Element pt2_yawrate = PT2Element(1, T1_REC, T1_REC);
 
 void Receiver::begin() {
-  m_rf24.begin(9, 10);
-  m_rf24.setDataRate(RF24_250KBPS);
-  m_rf24.setRetries(3, 5);
-  m_rf24.openReadingPipe(0, m_address);
-  m_rf24.setPALevel(RF24_PA_MAX);
-  m_rf24.startListening();
+  Wire.begin(1);
+  Wire.setClock(400000);
+  Wire.onReceive(&Receiver::receive);
 }
 
-void Receiver::update() {
-  if (millis() - m_lastPingMs > TIMEOUT_MS)
-    m_available = false;
+bool Receiver::isAvailable() {
+  return on && (millis() - lastPingMs <= TIMEOUT_MS);
+}
 
-  if (m_rf24.available()) {
-    char text[15] = "";
-    m_rf24.read(&text, sizeof(text));
-    parse(text);
-    m_lastPingMs = millis();
+ProcessVars Receiver::read(float interval_s) {
+  ProcessVars smoothed_vars;
+  smoothed_vars.thrust = pt2_thrust(vars.thrust, interval_s);
+  smoothed_vars.pitch = pt2_pitch(vars.pitch, interval_s);
+  smoothed_vars.roll = pt2_roll(vars.roll, interval_s);
+  smoothed_vars.yawrate = pt2_yawrate(vars.yawrate, interval_s);
+  return smoothed_vars; 
+}
+
+void Receiver::receive() {
+  lastPingMs = millis();
+  
+  while (Wire.available()) {
+    char c = Wire.read();
+    buf[pos++] = c;
+    if (c == '-') {
+      if (pos == BUF_SIZE)
+        vars = parse(buf);
+      pos = 0;
+    }
   }
 }
 
-// Message Format: S__C__P__R__Y__
-void Receiver::parse(char* text) {
-  for (int i = 0; i < 5; i++) {
+// Message Format: S__T__R__P__Y__
+ProcessVars Receiver::parse(char* text) {
+  ProcessVars vars;
+  for (int i = 0; i < NUM_VARS; i++) {
     char id = text[3 * i];
-    int16_t val = (int16_t)text[3 * i + 1] << 8;
-    val |= text[3 * i + 2] & 0xFF;
-    assign(id, val);
+    int16_t val = (int16_t) ((text[3 * i + 1] << 8) | (text[3 * i + 2] & 0xFF));
+    assign(vars, id, val);
   }
+  return vars;
 }
 
-void Receiver::assign(char id, int16_t val) {
+void Receiver::assign(ProcessVars& vars, char id, int16_t val) {
   switch (id) {
   case 'S':
-    m_available = val == 0;
+    on = bool(val);
     break;
-  case 'C':
-    m_vars.climb = (float)(val) / 1000.0f;
+  case 'T':
+    vars.thrust = (float)(val) / 10.0f;
     break;
   case 'R':
-    m_vars.roll = (float)(val) / 1000.0f;
+    vars.roll = (float)(val) / 1000.0f;
     break;
   case 'P':
-    m_vars.pitch = (float)(val) / 1000.0f;
+    vars.pitch = (float)(val) / 1000.0f;
     break;
   case 'Y':
-    m_vars.yawrate = (float)(val) / 1000.0f;
+    vars.yawrate = (float)(val) / 1000.0f;
     break;
   }
 }

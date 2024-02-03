@@ -6,18 +6,11 @@
 class Receiver {
 public:
   void begin();
-  void update();
-  bool isAvailable() const { return m_available; }
-  ProcessVars read() const { return m_vars; }
+  static bool isAvailable();
+  static ProcessVars read(float a_intervalS);
+  static void receive();
 
 private:
-  void parse(char* text);
-  void assign(char id, int16_t val);
-
-private:
-  const byte m_address[5] = { 'D', 'r', 'o', 'n', 'e' };
-  bool m_available = false;
-  ProcessVars m_vars;
-  uint32_t m_lastPingMs = 0;
-  RF24 m_rf24;
+  static ProcessVars parse(char* text);
+  static void assign(ProcessVars& vars, char id, int16_t val);
 };

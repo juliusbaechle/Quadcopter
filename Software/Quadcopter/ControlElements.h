@@ -1,81 +1,107 @@
 #pragma once
 
+class PT2Element {
+public:
+  PT2Element(float a_kp, float a_t1, float a_t2) {
+    m_kp = a_kp;
+    m_t1 = a_t1;
+    m_t2 = a_t2;
+  }
+
+  float operator() (float u, float t) {
+    m_y1 += (m_kp * u - m_y1) * (t / (t + m_t1));
+    m_y2 += (m_y1 - m_y2) * (t / (t + m_t2));
+    return m_y2;
+  }
+
+  void reset() {
+    m_y1 = 0;
+    m_y2 = 0;
+  }
+
+private:
+  float m_kp = 0;
+  float m_t1 = 0;
+  float m_t2 = 0;
+  float m_y1 = 0;
+  float m_y2 = 0;
+};
+
+
 class IElement {
 public:
   IElement(float a_ki) {
     m_ki = a_ki;
   }
 
-  float operator() (float a_val, float a_intervalS) {
+  float operator() (float u, float t) {
     if (m_ki <= 0) 
       return 0;
-    m_integral += m_ki * a_val * a_intervalS;
-    return m_integral;
+    m_iu += m_ki * u * t;
+    return m_iu;
   }
 
   void reset() {
-    m_integral = 0;
+    m_iu = 0;
   }
-
-  void setKi(float Ti) { m_ki = Ti; }
-  float getKi() { return m_ki; }
 
 private:
   float m_ki = 0;
-  float m_integral = 0;
+  float m_iu = 0;
 };
 
 
-class DT1Element {
+class DT2Element {
 public:
-  DT1Element(float a_kd, float a_kt1)
-  : kt1(a_kt1)
-  , kd(a_kd) 
+  DT2Element(float a_kd, float a_kt)
+  : kt(a_kt)
+  , pt2(1, a_kt, a_kt) 
   {}
 
   float operator() (float u, float t) {
-    if (kt1 <= 0 || kd <= 0)
+    if (kd <= 0)
       return 0;
-    lastY = (kd * (u - lastU) - kt1 * lastY) / (kt1 + t);
-    lastU = u;
-    return lastY;
+    float y = kd * pt2(u - u1, t) / t;
+    u1 = u;
+    return y;
   }
 
-  void reset() { 
-    lastY = 0; 
-    lastU = 0;
+  void reset() {
+    pt2.reset();
+    u1 = 0;
   }
 
 private:
-  float lastY = 0.0;
-  float lastU = 0.0;
+  float u1 = 0.0;
   float kd = 0.0;
-  float kt1 = 0.0;
+  float kt = 0.0;
+  PT2Element pt2;
 };
 
 
-class PIDT1Element {
+class PIDT2Element {
 public:
-  PIDT1Element(float a_kp, float a_ki, float a_kd)
+  PIDT2Element(float a_kp, float a_ki, float a_kd, float a_t)
     : m_kp(a_kp)
-    , m_iElement(a_ki)
-    , m_dt1Element(a_kd, a_kd / 10) {}
+    , m_i(a_ki)
+    , m_dt2(a_kd, a_t) 
+  {}
 
-  float operator() (float a_val, float interval_s) {
+  float operator() (float u, float t) {
     float val = 0.0f;
-    val += m_iElement(a_val, interval_s);
-    val += m_kp * a_val;
-    val += m_dt1Element(a_val, interval_s);
+    val += m_i(u, t);
+    val += m_kp * u;
+    val += m_dt2(u, t);
     return val;
   }
 
   void reset() {
-    m_iElement.reset();
-    m_dt1Element.reset();
+    m_i.reset();
+    m_dt2.reset();
   }
 
 private:
-  IElement m_iElement;
+  IElement m_i;
   float m_kp = 0.0;
-  DT1Element m_dt1Element;
+  DT2Element m_dt2;
 };

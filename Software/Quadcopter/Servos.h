@@ -9,7 +9,7 @@ public:
   void set(Thrust a_thrust);
 
 private:
-  uint16_t toUs(float a_percent);
+  uint16_t toUs(float a_val);
 
 private:
   Servo m_servos[4];

@@ -36,13 +36,3 @@ void print(const ProcessVars& a_vars) {
   Serial.print(F(", Thrust: "));
   Serial.println(a_vars.thrust);
 }
-
-void plot(const ProcessVars& a_vars) {
-  Serial.print(a_vars.pitch);
-  Serial.print(",");
-  Serial.print(a_vars.roll);
-  Serial.print(",");
-  Serial.print(a_vars.yawrate);
-  Serial.print(",");
-  Serial.println(a_vars.thrust);
-}

@@ -25,11 +25,11 @@ Thrust& Thrust::operator+=(const Thrust& a_thrust) {
 
 void print(const Thrust& a_thrust) {
   Serial.print(F("FL: "));
-  Serial.print(a_thrust.frontLeft);
+  Serial.print(100 * a_thrust.frontLeft);
   Serial.print(F(", FR: "));
-  Serial.print(a_thrust.frontRight);
+  Serial.print(100 * a_thrust.frontRight);
   Serial.print(F(", RL: "));
-  Serial.print(a_thrust.rearLeft);
+  Serial.print(100 * a_thrust.rearLeft);
   Serial.print(F(", RR: "));
-  Serial.println(a_thrust.rearRight);
+  Serial.println(100 * a_thrust.rearRight);
 }

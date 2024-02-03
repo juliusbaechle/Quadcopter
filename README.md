@@ -12,7 +12,7 @@ drone was simulated in Matlab, and the self-written control elements were first 
 accordingly. Unfortunately, the drone was destroyed during the following flight attempts due 
 to a connection failure.
 
-In 2022, we rebuilt the drone, reduced the moment of inertia and weight and refactored the software.
+In 2022, we rebuilt the drone, reduced the moment of inertia as well as the weight and refactored the software.
 
 In 2024, after completing my Master's degree in Applied Computer Science, we switched to
 angle control instead of angular rate control and integrated a more advanced radio control 

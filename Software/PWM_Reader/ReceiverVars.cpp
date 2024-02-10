@@ -1,7 +1,7 @@
-#include "ProcessVars.h"
+#include "ReceiverVars.h"
 #include <Arduino.h>
 
-ProcessVars::ProcessVars(bool a_on, short a_thrust, short a_roll, short a_pitch, short a_yawrate) {
+ReceiverVars::ReceiverVars(bool a_on, short a_thrust, short a_roll, short a_pitch, short a_yawrate) {
   on = a_on;
   thrust = a_thrust;
   roll = a_roll;
@@ -9,8 +9,8 @@ ProcessVars::ProcessVars(bool a_on, short a_thrust, short a_roll, short a_pitch,
   yawrate = a_yawrate;
 }
 
-ProcessVars ProcessVars::operator- (const ProcessVars& a_vars) {
-  ProcessVars vars;
+ReceiverVars ReceiverVars::operator- (const ReceiverVars& a_vars) {
+  ReceiverVars vars;
   vars.on = on;
   vars.thrust = thrust - a_vars.thrust;
   vars.roll = roll - a_vars.roll;
@@ -19,7 +19,7 @@ ProcessVars ProcessVars::operator- (const ProcessVars& a_vars) {
   return vars;
 }
 
-void print(const ProcessVars& a_vars) {
+void print(const ReceiverVars& a_vars) {
   Serial.print(F("On: "));
   Serial.print(a_vars.on);
   Serial.print(F(", Pitch: "));

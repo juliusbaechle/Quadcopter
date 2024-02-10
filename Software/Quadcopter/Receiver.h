@@ -6,8 +6,7 @@
 class Receiver {
 public:
   void begin();
-  static bool isAvailable();
-  static ProcessVars read(float a_intervalS);
+  static ProcessVars read(float a_intervalS, bool& ok);
   static void receive();
 
 private:

@@ -2,7 +2,7 @@
 #include "ControlElements.h"
 #include <Wire.h>
 
-#define TIMEOUT_MS 2000
+#define TIMEOUT_MS 500
 #define NUM_VARS 5
 #define BUF_SIZE (NUM_VARS * 3 + 1)
 
@@ -12,7 +12,7 @@ int pos = 0;
 char buf [BUF_SIZE];
 bool on = false;
 
-const float T1_REC = 0.05;
+const float T1_REC = 0.025;
 PT2Element pt2_thrust = PT2Element(1, T1_REC, T1_REC);
 PT2Element pt2_roll = PT2Element(1, T1_REC, T1_REC);
 PT2Element pt2_pitch = PT2Element(1, T1_REC, T1_REC);
@@ -22,25 +22,23 @@ void Receiver::begin() {
   Wire.begin(1);
   Wire.setClock(400000);
   Wire.onReceive(&Receiver::receive);
+  Wire.setWireTimeout(10000, false);
 }
 
-bool Receiver::isAvailable() {
-  return on && (millis() - lastPingMs <= TIMEOUT_MS);
-}
-
-ProcessVars Receiver::read(float interval_s) {
+ProcessVars Receiver::read(float interval_s, bool& ok) {
   ProcessVars smoothed_vars;
+  ok &= on && !Wire.getWireTimeoutFlag();
   smoothed_vars.thrust = pt2_thrust(vars.thrust, interval_s);
   smoothed_vars.pitch = pt2_pitch(vars.pitch, interval_s);
   smoothed_vars.roll = pt2_roll(vars.roll, interval_s);
   smoothed_vars.yawrate = pt2_yawrate(vars.yawrate, interval_s);
+  Wire.clearWireTimeoutFlag();
   return smoothed_vars; 
 }
 
-void Receiver::receive() {
-  lastPingMs = millis();
-  
+void Receiver::receive() {  
   while (Wire.available()) {
+    lastPingMs = millis();
     char c = Wire.read();
     buf[pos++] = c;
     if (c == '-') {

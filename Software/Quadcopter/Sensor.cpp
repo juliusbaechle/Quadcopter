@@ -16,19 +16,16 @@ void Sensor::begin() {
   }
 }
 
-ProcessVars Sensor::read(float interval_s) {
+ProcessVars Sensor::read(float interval_s, bool& ok) {
   const float K = 0.01; // influence acc : gyro
-    
-  Coordinates rates = readRates() - m_offset_rates;
+
+  Coordinates rates = readRates(ok) - m_offset_rates;
   m_angles.x += interval_s * rates.x;
   m_angles.y += interval_s * rates.y;
   
-  Coordinates acc_angles = readAccAngles() - m_offset_angles;
+  Coordinates acc_angles = readAccAngles(ok) - m_offset_angles;
   m_angles.x += K * (acc_angles.x - m_angles.x);
   m_angles.y += K * (acc_angles.y - m_angles.y);
-
-  sensors_event_t a;
-  m_sensor.getAccelerometerSensor()->getEvent(&a);
 
   ProcessVars vars;
   vars.pitch = pt2_pitch(m_angles.x, interval_s);
@@ -38,9 +35,9 @@ ProcessVars Sensor::read(float interval_s) {
   return vars; 
 }
 
-Coordinates Sensor::readRates() {  
+Coordinates Sensor::readRates(bool& ok) {  
   sensors_event_t g;
-  m_sensor.getGyroSensor()->getEvent(&g);
+  ok &= m_sensor.getGyroSensor()->getEvent(&g);
   
   Coordinates rates;
   rates.x = g.gyro.y;
@@ -55,9 +52,9 @@ Coordinates Sensor::readRates() {
   return rates;
 }
 
-Coordinates Sensor::readAccAngles() {
+Coordinates Sensor::readAccAngles(bool& ok) {
   sensors_event_t a;
-  m_sensor.getAccelerometerSensor()->getEvent(&a);
+  ok &= m_sensor.getAccelerometerSensor()->getEvent(&a);
   
   Coordinates angles;
   angles.x = -atan(a.acceleration.x / sqrt(sq(a.acceleration.y) + sq(a.acceleration.z)));

@@ -39,19 +39,19 @@ static void println(const Coordinates& c) {
 class Sensor {
 public:
   void begin();
-  ProcessVars read(float interval_s);
+  ProcessVars read(float interval_s, bool& ok);
 
 private:
-  Coordinates readRates();
-  Coordinates readAccAngles(); 
+  Coordinates readRates(bool& ok);
+  Coordinates readAccAngles(bool& ok);
 
 private:
   Adafruit_MPU6050 m_sensor;
   PT2Element pt2_roll = PT2Element(1, T1_SENSOR, T1_SENSOR);
   PT2Element pt2_pitch = PT2Element(1, T1_SENSOR, T1_SENSOR);
   PT2Element pt2_yawrate = PT2Element(1, T1_SENSOR, T1_SENSOR);
-  Coordinates m_offset_rates = { -0.01, -0.06, -0.01 };
-  Coordinates m_offset_angles = { -0.07, -0.02, 0 };
+  Coordinates m_offset_rates = { -0.05, -0.005, -0.01 };
+  Coordinates m_offset_angles = { -0.07, -0.04, 0 };
   Coordinates m_angles;
   uint64_t m_us;
 };

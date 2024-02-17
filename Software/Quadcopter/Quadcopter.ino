@@ -21,18 +21,18 @@ void setup() {
   sensor.begin();
   controller.reset();
   servos.begin();
-  us = micros();
+  us = micros() - 8000;
 }
 
 void loop() {
   float interval_s = ((float) (micros() - us)) / 1000000;
   us = micros();
-
+  
   bool ok = true;
   auto desiredVars = receiver.read(interval_s, ok);
   auto actualVars = sensor.read(interval_s, ok);
   auto thrust = Thrust(0);
-
+  
   if (ok) {
     thrust = controller.calc(desiredVars - actualVars, interval_s);
   } else {
@@ -40,11 +40,11 @@ void loop() {
   }
 
   servos.set(thrust);
-  Serial.print(thrust.frontLeft);
+  /* Serial.print(thrust.frontLeft);
   Serial.print(",");
   Serial.print(thrust.frontRight);
   Serial.print(",");
   Serial.print(thrust.rearLeft);
   Serial.print(",");
-  Serial.println(thrust.rearRight);
+  Serial.println(thrust.rearRight); */
 }
